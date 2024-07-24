@@ -24,6 +24,10 @@ app.use(cors(
     }
 ));
 
+app.get('/', async (req, res) => {
+    res.json("Hello");
+});
+
 // Check-In route
 app.post('/checkin', async (req, res) => {
     const { date, time, email } = req.body;
