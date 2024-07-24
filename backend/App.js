@@ -7,9 +7,9 @@ const os = require('os');
 const mongoose = require('mongoose');
 
 // Load your Mongoose models
-const UserIn = require('./mongo'); // Adjust the path as needed
-const UserOut = require('./checkoutdb'); // Adjust the path as needed
-const User = require('./userMongo'); // Adjust the path as needed
+const UserIn = require('./models/mongo'); // Adjust the path as needed
+const UserOut = require('./models/checkoutdb'); // Adjust the path as needed
+const User = require('./models/userMongo'); // Adjust the path as needed
 
 const app = express();
 const port = 8000;
