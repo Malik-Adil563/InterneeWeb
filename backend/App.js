@@ -18,9 +18,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(
     {
-        origin: ["https://internee-web-frontend.vercel.app"],
-        methods : ["POST", "GET"],
-        credentials : true
+         origin: 'https://internee-web-frontend.vercel.app', // Replace with your frontend URL
+  methods: ['GET', 'POST'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, // If you need to include cookies in the requests
     }
 ));
 
