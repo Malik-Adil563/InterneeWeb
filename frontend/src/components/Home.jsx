@@ -31,7 +31,7 @@ const Home = () => {
     const data = { date: currentDate, time: currentTime, email };
 
     if (isCheckinVisible) {
-      Axios.post('http://localhost:8000/', data)
+      Axios.post('http://localhost:8000/checkin', data)
         .then(response => {
           console.log(response.data);
           setMessage('Welcome to OctaLOOP Technologies');
@@ -46,7 +46,7 @@ const Home = () => {
           console.error('Error adding data:', error);
         });
     } else {
-      Axios.post('http://localhost:7000/', data)
+      Axios.post('http://localhost:8000/checkout', data)
         .then(response => {
           console.log(response.data);
           setMessage('Good-Bye');

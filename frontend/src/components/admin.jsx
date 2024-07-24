@@ -3,7 +3,7 @@ import React from 'react';
 const Admin = () => {
 
   const handleShowUsers = () => {
-    window.open('http://localhost:7001/getUsers', '_blank');
+    window.open('http://localhost:8000/generateExcel', '_blank');
   };
 
   return (

@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const fetchEmails = () => {
-    Axios.get("http://localhost:9000/getUsers")
+    Axios.get("http://localhost:8000/getUsers")
       .then(response => {
         const emailList = response.data.map(item => item.email);
         setEmails(emailList);
