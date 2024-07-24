@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+
+*{
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+html{
+  font-size: 10px;
+}
+
+.background-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; /* Ensures no scrollbars if image or content overflow */
+  position: relative;
+  background-image: url('assets/octa.png');
+  background-size: cover;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers the entire container */
+  z-index: -1; /* Places the image behind other elements */
+}
+
+.bodylogin {
+  width: 100%;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center align content horizontally and vertically */
+}
+
+.auth {
+  background-color: rgba(163, 163, 163, 0.8); /* White color with 80% opacity */
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center align horizontally and vertically */
+  padding: 2rem;
+  border-radius: 0.5rem;
+  min-width: 32rem;
+  color: #000; /* Ensure text color is visible on the transparent background */
+  text-align: center; /* Center align text and buttons */
+}
+
+.auth h1{
+  font-size: 2.5rem;
+  text-align: center;
+  padding-bottom: 2rem;
+  border-bottom: 0.1rem solid silver;
+}
+
+.auth form{
+  margin: 1rem;
+}
+
+.auth input{
+  width: 100%;
+  margin-top: 2rem;
+  height: 4rem;
+  font-size: 1.4rem;
+  border: none;
+  border-bottom: 0.15rem solid rgb(163, 163, 163);
+  padding:0 0.5rem;
+  outline: none;
+}
+
+.auth input:hover{
+  border-bottom: 0.15rem solid #0086da;
+}
+
+.auth input::placeholder{
+  color: rgb(163, 163, 163);
+}
+
+
+.auth form p{
+  font-size: 1.3rem;
+  padding: 3rem .5rem 0 0;
+  color: rgb(163, 163, 163);
+}
+
+.auth form p:hover{
+  color: rgb(80, 80, 80);
+  cursor: pointer;
+}
+
+.auth button[type="submit"]{
+  display: block;
+  margin: 2rem auto;
+  font-size: 1.6rem;
+  width: 90%;
+  padding: 0.9rem 0;
+  border-radius: 1.7rem;
+  border: none;
+  background-color: #6f00ff;
+  color: #ffffff;
+}
+
+.auth button[type="submit"]:hover{
+  cursor: pointer;
+}
+
+.auth .login-message{
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.auth .login-message span{
+  color: #007ecc;
+  font-weight: 600;
+}
+
+.auth .login-message span:hover{
+  cursor: pointer;
+}
