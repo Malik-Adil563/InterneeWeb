@@ -44,7 +44,7 @@ const Home = () => {
     fetchState(); // Fetch the state when the component mounts
   }, []);
 
-  const toggleCheckin = (event) => {
+  const toggleCheckin = async (event) => {
     event.preventDefault();
     const today = new Date();
     const month = today.getMonth() + 1;
@@ -55,50 +55,32 @@ const Home = () => {
 
     const data = { date: currentDate, time: currentTime, email };
 
-    if (isCheckinVisible) {
-      Axios.post('https://internee-web.vercel.app/checkin', data)
-        .then(response => {
-          console.log(response.data);
-          setMessage('Welcome to OctaLOOP Technologies');
-          setShowWelcomeMessage(true);
-          setTimeout(() => {
-            setShowWelcomeMessage(false);
-            setIsCheckinVisible(false);
-            setMessage('Please Check-Out');
-          }, 2000); // Show welcome message for 2 seconds
-        })
-        .catch(error => {
-          console.error('Error adding data:', error);
-        });
+    try {
+      if (isCheckinVisible) {
+        await Axios.post('https://internee-web.vercel.app/checkin', data);
+        await Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" });
 
-      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error('Error updating state:', error);
-        });
-    } else {
-      Axios.post('https://internee-web.vercel.app/checkout', data)
-        .then(response => {
-          console.log(response.data);
-          setMessage('Good-Bye');
-          setIsGoodbyeVisible(true);
-          setTimeout(() => {
-            navigate('/');
-          }, 2000); // Redirect to login page after 2 seconds
-        })
-        .catch(error => {
-          console.error('Error adding data:', error);
-        });
+        console.log('Checked in successfully');
+        setMessage('Welcome to OctaLOOP Technologies');
+        setShowWelcomeMessage(true);
+        setTimeout(() => {
+          setShowWelcomeMessage(false);
+          setIsCheckinVisible(false);
+          setMessage('Please Check-Out');
+        }, 2000); // Show welcome message for 2 seconds
+      } else {
+        await Axios.post('https://internee-web.vercel.app/checkout', data);
+        await Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" });
 
-      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error('Error updating state:', error);
-        });
+        console.log('Checked out successfully');
+        setMessage('Good-Bye');
+        setIsGoodbyeVisible(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 2000); // Redirect to login page after 2 seconds
+      }
+    } catch (error) {
+      console.error('Error updating data:', error);
     }
   };
 
