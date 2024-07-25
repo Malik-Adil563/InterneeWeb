@@ -16,11 +16,12 @@ const port = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(cors({
-  origin: 'https://internee-web-frontend.vercel.app', // Replace with your frontend URL
+  origin: 'https://internee-web-frontend.vercel.app', // Your frontend URL
   methods: ['GET', 'POST'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  credentials: true, // If you need to include cookies in the requests
+  credentials: true // If you need to include cookies in the requests
 }));
 
 app.get('/', async (req, res) => {
