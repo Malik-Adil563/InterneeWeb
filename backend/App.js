@@ -72,7 +72,7 @@ app.post('/state', async (req, res) => {
       existingState.state = state;
       await existingState.save();
     } else {
-      const userState = new currState({ email, state });
+      const userState = new currState({ email, state, date: new Date().toISOString().split('T')[0] }); // Include date field
       await userState.save();
     }
 
@@ -92,9 +92,10 @@ app.get('/getState', async (req, res) => {
   try {
     const state = await currState.findOne({ email });
     if (state) {
-      console.log('email with state found');
+      console.log('Found state:', state);
       res.json(state);
     } else {
+      console.log('State not found');
       res.status(404).send('State not found');
     }
   } catch (error) {
