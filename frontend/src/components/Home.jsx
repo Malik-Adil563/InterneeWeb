@@ -67,6 +67,7 @@ const toggleCheckin = async (event) => {
   try {
     if (isCheckinVisible) {
       // Check-In
+      console.log('Checking in...');
       await Axios.post('https://internee-web.vercel.app/checkin', data);
       await Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" });
 
@@ -80,6 +81,7 @@ const toggleCheckin = async (event) => {
       }, 2000); // Show welcome message for 2 seconds
     } else {
       // Check-Out
+      console.log('Checking out...');
       await Axios.post('https://internee-web.vercel.app/checkout', data);
       await Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" });
 
