@@ -3,7 +3,7 @@ import React from 'react';
 const Admin = () => {
 
   const handleShowUsers = () => {
-    window.open('https://internee-portal.vercel.app/generateExcel', '_blank');
+    window.open('https://internee-web.vercel.app/generateExcel', '_blank');
   };
 
   return (
