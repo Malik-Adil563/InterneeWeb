@@ -10,6 +10,7 @@ const Home = () => {
   const [message, setMessage] = useState('Please check-in');
   const [isGoodbyeVisible, setIsGoodbyeVisible] = useState(false);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
+  const [state, setState] = useState([]);
 
   useEffect(() => {
     if (isCheckinVisible) {
@@ -30,7 +31,26 @@ const Home = () => {
 
     const data = { date: currentDate, time: currentTime, email };
 
-    
+    const fetchState = () => {
+    Axios.get("https://internee-web.vercel.app/getState")
+      .then(response => {
+        const states = response.data.map(item => item.state);
+        setState(states);
+      })
+      .catch(error => {
+        console.error('Error fetching state:', error);
+      });
+  };
+
+  const submithandler = (event) => {
+    event.preventDefault();
+
+    if (states=="checkin") {
+      setIsCheckinVisible(false);
+    } else {
+      setIsCheckinVisible(true);
+    }
+  };
 
     if (isCheckinVisible) {
       Axios.post('https://internee-web.vercel.app/checkin', data)
@@ -76,6 +96,11 @@ const Home = () => {
         });
     }
   };
+
+    useEffect(() => {
+    fetchState();
+    submithandler();
+  }, []);
 
   return (
     <div className="background-container">
