@@ -25,12 +25,21 @@ const Home = () => {
   const fetchState = async () => {
     try {
       const response = await Axios.get('https://internee-web.vercel.app/getState', { params: { email } });
-      const userState = response.data[0]?.state; // Adjust based on your API response structure
+      console.log('Fetched state data:', response.data); // Debugging
 
-      if (userState === 'checkin') {
-        setIsCheckinVisible(false);
-        setMessage('Please Check-Out');
+      // Ensure response is an array and has the expected data
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        const userState = response.data[0]?.state; // Adjust based on your API response structure
+
+        if (userState === 'checkin') {
+          setIsCheckinVisible(false);
+          setMessage('Please Check-Out');
+        } else {
+          setIsCheckinVisible(true);
+          setMessage('Please check-in');
+        }
       } else {
+        // If no state found or wrong format, default to check-in button
         setIsCheckinVisible(true);
         setMessage('Please check-in');
       }
