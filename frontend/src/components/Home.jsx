@@ -10,7 +10,8 @@ const Home = () => {
   const [message, setMessage] = useState('Please check-in');
   const [isGoodbyeVisible, setIsGoodbyeVisible] = useState(false);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
- // Check if data for yesterday exists and delete if necessary
+
+  // Check if data for yesterday exists and delete if necessary
   const deleteYesterdayState = async () => {
     try {
       await Axios.delete('https://internee-web.vercel.app/deleteYesterdayState');
@@ -26,9 +27,8 @@ const Home = () => {
       const response = await Axios.get('https://internee-web.vercel.app/getState', { params: { email } });
       console.log('Fetched state data:', response.data); // Debugging
 
-      // Ensure response is an array and has the expected data
       if (Array.isArray(response.data) && response.data.length > 0) {
-        const userState = response.data[0]?.state; // Adjust based on your API response structure
+        const userState = response.data[0]?.state;
         console.log('User State:', userState); // Debugging
 
         if (userState === 'checkin') {
@@ -39,7 +39,6 @@ const Home = () => {
           setMessage('Please check-in');
         }
       } else {
-        // If no state found or wrong format, default to check-in button
         setIsCheckinVisible(true);
         setMessage('Please check-in');
       }
@@ -49,18 +48,18 @@ const Home = () => {
   };
 
   useEffect(() => {
-    deleteYesterdayState(); // Check and delete yesterday's state data when the component mounts
-    fetchState(); // Fetch the state when the component mounts
+    deleteYesterdayState();
+    fetchState();
   }, []);
-  
+
   const toggleCheckin = (event) => {
     event.preventDefault();
     const today = new Date();
     const month = today.getMonth() + 1;
     const year = today.getFullYear();
     const date = today.getDate();
-    const currentDate = ${year}-${month}-${date};
-    const currentTime = ${today.getHours()}:${today.getMinutes()}:${today.getSeconds()};
+    const currentDate = `${year}-${month}-${date}`;
+    const currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 
     const data = { date: currentDate, time: currentTime, email };
 
@@ -74,13 +73,13 @@ const Home = () => {
             setShowWelcomeMessage(false);
             setIsCheckinVisible(false);
             setMessage('Please Check-Out');
-          }, 2000); // Show welcome message for 2 seconds
+          }, 2000);
         })
         .catch(error => {
           console.error('Error adding data:', error);
         });
 
-       Axios.put('https://internee-web.vercel.app/state', { email, state: "checkin" })
+      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" })
         .then(response => {
           console.log(response.data);
         })
@@ -95,13 +94,13 @@ const Home = () => {
           setIsGoodbyeVisible(true);
           setTimeout(() => {
             navigate('/');
-          }, 2000); // Redirect to login page after 2 seconds
+          }, 2000);
         })
         .catch(error => {
           console.error('Error adding data:', error);
         });
 
-       Axios.put('https://internee-web.vercel.app/state', { email, state: "checkout" })
+      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" })
         .then(response => {
           console.log(response.data);
         })
@@ -117,13 +116,13 @@ const Home = () => {
         <section>
           <div className="auth">
             <h1>{message}</h1>
-            <form action="">
+            <form>
               {isGoodbyeVisible ? null : (
                 showWelcomeMessage ? null : (
                   isCheckinVisible ? (
-                    <button onClick={toggleCheckin} id="checkin" name="checkin" type="submit" value="checkin">Check-In</button>
+                    <button onClick={toggleCheckin} id="checkin" name="checkin" type="button">Check-In</button>
                   ) : (
-                    <button onClick={toggleCheckin} id="checkout" name="checkout" type="submit" value="checkout">Check-Out</button>
+                    <button onClick={toggleCheckin} id="checkout" name="checkout" type="button">Check-Out</button>
                   )
                 )
               )}
