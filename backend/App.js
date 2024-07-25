@@ -12,16 +12,15 @@ const UserOut = require('./models/checkoutdb'); // Adjust the path as needed
 const User = require('./models/userMongo'); // Adjust the path as needed
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cors({
   origin: 'https://internee-web-frontend.vercel.app', // Replace with your frontend URL
-  methods: ['GET', 'POST', 'OPTIONS', 'DELETE'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'x-requested-with'], // Allowed headers
-  credentials: true // If you need to include cookies in the requests
+  methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 app.get('/', async (req, res) => {
@@ -64,9 +63,8 @@ app.post('/checkout', async (req, res) => {
 app.get('/getUsers', async (req, res) => {
   try {
     console.log('Received request to /getUsers');
-    const usersOut = await UserOut.find();
-    const usersIn = await UserIn.find();
-    res.json({ checkIn: usersIn, checkOut: usersOut });
+    const users = await User.find();
+    res.json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: error.message });
