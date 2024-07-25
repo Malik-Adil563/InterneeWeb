@@ -30,6 +30,8 @@ const Home = () => {
 
     const data = { date: currentDate, time: currentTime, email };
 
+    
+
     if (isCheckinVisible) {
       Axios.post('https://internee-web.vercel.app/checkin', data)
         .then(response => {
@@ -45,6 +47,13 @@ const Home = () => {
         .catch(error => {
           console.error('Error adding data:', error);
         });
+      Axios.post('https://internee-web.vercel.app/state', {"checkin"})
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error adding data:', error);
+        });
     } else {
       Axios.post('https://internee-web.vercel.app/checkout', data)
         .then(response => {
@@ -54,6 +63,13 @@ const Home = () => {
           setTimeout(() => {
             navigate('/');
           }, 2000); // Redirect to login page after 2 seconds
+        })
+        .catch(error => {
+          console.error('Error adding data:', error);
+        });
+      Axios.post('https://internee-web.vercel.app/state', {"checkout"})
+        .then(response => {
+          console.log(response.data);
         })
         .catch(error => {
           console.error('Error adding data:', error);
