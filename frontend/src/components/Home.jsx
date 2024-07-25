@@ -53,63 +53,47 @@ const Home = () => {
     fetchState(); // Fetch the state when the component mounts
   }, []);
   
-  const toggleCheckin = (event) => {
-    event.preventDefault();
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-    const date = today.getDate();
-    const currentDate = `${year}-${month}-${date}`;
-    const currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+const toggleCheckin = async (event) => {
+  event.preventDefault();
+  const today = new Date();
+  const month = today.getMonth() + 1;
+  const year = today.getFullYear();
+  const date = today.getDate();
+  const currentDate = `${year}-${month}-${date}`;
+  const currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 
-    const data = { date: currentDate, time: currentTime, email };
+  const data = { date: currentDate, time: currentTime, email };
 
+  try {
     if (isCheckinVisible) {
-      Axios.post('https://internee-web.vercel.app/checkin', data)
-        .then(response => {
-          console.log(response.data);
-          setMessage('Welcome to OctaLOOP Technologies');
-          setShowWelcomeMessage(true);
-          setTimeout(() => {
-            setShowWelcomeMessage(false);
-            setIsCheckinVisible(false);
-            setMessage('Please Check-Out');
-          }, 2000); // Show welcome message for 2 seconds
-        })
-        .catch(error => {
-          console.error('Error adding data:', error);
-        });
+      // Check-In
+      await Axios.post('https://internee-web.vercel.app/checkin', data);
+      await Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" });
 
-       Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error('Error updating state:', error);
-        });
+      console.log('Checked in successfully');
+      setMessage('Welcome to OctaLOOP Technologies');
+      setShowWelcomeMessage(true);
+      setTimeout(() => {
+        setShowWelcomeMessage(false);
+        setIsCheckinVisible(false);
+        setMessage('Please Check-Out');
+      }, 2000); // Show welcome message for 2 seconds
     } else {
-      Axios.post('https://internee-web.vercel.app/checkout', data)
-        .then(response => {
-          console.log(response.data);
-          setMessage('Good-Bye');
-          setIsGoodbyeVisible(true);
-          setTimeout(() => {
-            navigate('/');
-          }, 2000); // Redirect to login page after 2 seconds
-        })
-        .catch(error => {
-          console.error('Error adding data:', error);
-        });
+      // Check-Out
+      await Axios.post('https://internee-web.vercel.app/checkout', data);
+      await Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" });
 
-       Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error('Error updating state:', error);
-        });
+      console.log('Checked out successfully');
+      setMessage('Good-Bye');
+      setIsGoodbyeVisible(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 2000); // Redirect to login page after 2 seconds
     }
-  };
+  } catch (error) {
+    console.error('Error updating data:', error);
+  }
+};
 
   return (
     <div className="background-container">
