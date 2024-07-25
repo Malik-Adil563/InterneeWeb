@@ -23,7 +23,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.get('/gt', async (req, res) => {
+app.get('/', async (req, res) => {
   res.json("Hello");
 });
 
@@ -60,7 +60,7 @@ app.post('/checkout', async (req, res) => {
 });
 
 // Route to fetch users from check-in and check-out collections
-app.get('/', async (req, res) => {
+app.get('/getUsers', async (req, res) => {
   try {
     console.log('Received request to /getUsers');
     const users = await User.find();
