@@ -11,26 +11,36 @@ const Home = () => {
   const [isGoodbyeVisible, setIsGoodbyeVisible] = useState(false);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
 
-  // Fetch the state for the logged-in user
-  const fetchState = () => {
-    Axios.get(`https://internee-web.vercel.app/getState`, { params: { email } })
-      .then(response => {
-        const userState = response.data.state; // Adjust based on your API response structure
+  // Check if data for yesterday exists and delete if necessary
+  const deleteYesterdayState = async () => {
+    try {
+      await Axios.delete('https://internee-web.vercel.app/deleteYesterdayState');
+      console.log('Checked and deleted yesterday\'s state data if necessary');
+    } catch (error) {
+      console.error('Error deleting yesterday\'s state data:', error);
+    }
+  };
 
-        if (userState === 'checkin') {
-          setIsCheckinVisible(false);
-          setMessage('Please Check-Out');
-        } else {
-          setIsCheckinVisible(true);
-          setMessage('Please check-in');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching state:', error);
-      });
+  // Fetch the state for the logged-in user
+  const fetchState = async () => {
+    try {
+      const response = await Axios.get('https://internee-web.vercel.app/getState', { params: { email } });
+      const userState = response.data[0]?.state; // Adjust based on your API response structure
+
+      if (userState === 'checkin') {
+        setIsCheckinVisible(false);
+        setMessage('Please Check-Out');
+      } else {
+        setIsCheckinVisible(true);
+        setMessage('Please check-in');
+      }
+    } catch (error) {
+      console.error('Error fetching state:', error);
+    }
   };
 
   useEffect(() => {
+    deleteYesterdayState(); // Check and delete yesterday's state data when the component mounts
     fetchState(); // Fetch the state when the component mounts
   }, []);
 
