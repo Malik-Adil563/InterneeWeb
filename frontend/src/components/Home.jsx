@@ -31,7 +31,7 @@ const Home = () => {
     const data = { date: currentDate, time: currentTime, email };
 
     if (isCheckinVisible) {
-      Axios.post('https://internee-portal.vercel.app/checkin', data)
+      Axios.post('https://internee-web.vercel.app/checkin', data)
         .then(response => {
           console.log(response.data);
           setMessage('Welcome to OctaLOOP Technologies');
@@ -46,7 +46,7 @@ const Home = () => {
           console.error('Error adding data:', error);
         });
     } else {
-      Axios.post('https://internee-portal.vercel.app/checkout', data)
+      Axios.post('https://internee-web.vercel.app/checkout', data)
         .then(response => {
           console.log(response.data);
           setMessage('Good-Bye');
