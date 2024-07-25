@@ -10,15 +10,29 @@ const Home = () => {
   const [message, setMessage] = useState('Please check-in');
   const [isGoodbyeVisible, setIsGoodbyeVisible] = useState(false);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
-  const [state, setState] = useState([]);
+
+  // Fetch the state for the logged-in user
+  const fetchState = () => {
+    Axios.get(`https://internee-web.vercel.app/getState`, { params: { email } })
+      .then(response => {
+        const userState = response.data.state; // Adjust based on your API response structure
+
+        if (userState === 'checkin') {
+          setIsCheckinVisible(false);
+          setMessage('Please Check-Out');
+        } else {
+          setIsCheckinVisible(true);
+          setMessage('Please check-in');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching state:', error);
+      });
+  };
 
   useEffect(() => {
-    if (isCheckinVisible) {
-      setMessage('Please check-in');
-    } else {
-      setMessage('Please Check-Out');
-    }
-  }, [isCheckinVisible]);
+    fetchState(); // Fetch the state when the component mounts
+  }, []);
 
   const toggleCheckin = (event) => {
     event.preventDefault();
@@ -30,27 +44,6 @@ const Home = () => {
     const currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 
     const data = { date: currentDate, time: currentTime, email };
-
-    const fetchState = () => {
-    Axios.get("https://internee-web.vercel.app/getState")
-      .then(response => {
-        const states = response.data.map(item => item.state);
-        setState(states);
-      })
-      .catch(error => {
-        console.error('Error fetching state:', error);
-      });
-  };
-
-  const submithandler = (event) => {
-    event.preventDefault();
-
-    if (states=="checkin") {
-      setIsCheckinVisible(false);
-    } else {
-      setIsCheckinVisible(true);
-    }
-  };
 
     if (isCheckinVisible) {
       Axios.post('https://internee-web.vercel.app/checkin', data)
@@ -67,12 +60,13 @@ const Home = () => {
         .catch(error => {
           console.error('Error adding data:', error);
         });
-      Axios.post('https://internee-web.vercel.app/state', {"checkin"})
+
+      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" })
         .then(response => {
           console.log(response.data);
         })
         .catch(error => {
-          console.error('Error adding data:', error);
+          console.error('Error updating state:', error);
         });
     } else {
       Axios.post('https://internee-web.vercel.app/checkout', data)
@@ -87,20 +81,16 @@ const Home = () => {
         .catch(error => {
           console.error('Error adding data:', error);
         });
-      Axios.post('https://internee-web.vercel.app/state', {"checkout"})
+
+      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" })
         .then(response => {
           console.log(response.data);
         })
         .catch(error => {
-          console.error('Error adding data:', error);
+          console.error('Error updating state:', error);
         });
     }
   };
-
-    useEffect(() => {
-    fetchState();
-    submithandler();
-  }, []);
 
   return (
     <div className="background-container">
