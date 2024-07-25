@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const fetchEmails = () => {
-    Axios.get("https://internee-portal.vercel.app/getUsers")
+    Axios.get("https://internee-web.vercel.app/getUsers")
       .then(response => {
         const emailList = response.data.map(item => item.email);
         setEmails(emailList);
