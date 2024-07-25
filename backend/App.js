@@ -102,6 +102,25 @@ app.get('/getState', async (req, res) => {
   }
 });
 
+// Route to delete state records for yesterday
+app.delete('/deleteYesterdayState', async (req, res) => {
+  try {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const formattedDate = yesterday.toISOString().split('T')[0]; // YYYY-MM-DD format
+
+    // Delete all records for yesterday
+    await currState.deleteMany({ date: formattedDate });
+
+    console.log('Deleted yesterday\'s state data');
+    res.status(200).send('Deleted yesterday\'s state data');
+  } catch (error) {
+    console.error('Error deleting yesterday\'s state data:', error);
+    res.status(500).send('Error deleting yesterday\'s state data');
+  }
+});
+
 // Route to fetch users from check-in and check-out collections
 app.get('/getUsers', async (req, res) => {
   try {
