@@ -23,12 +23,17 @@ const userStateSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  date: {
+    type: String,  // Consider using Date type if you plan to perform date operations
+    required: true,
+    trim: true,
   }
 }, {
-  timestamps: true // Optional: Adds createdAt and updatedAt fields
+  timestamps: true // Adds createdAt and updatedAt fields automatically
 });
 
 // Create the model for the 'states' collection
-const currState = mongoose.model("currState", userStateSchema, 'states'); // 'states' is the collection name
+const UserState = mongoose.model("UserState", userStateSchema, 'states'); // 'states' is the collection name
 
-module.exports = currState;
+module.exports = UserState;
