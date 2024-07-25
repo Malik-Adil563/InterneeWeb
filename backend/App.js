@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const UserIn = require('./models/mongo'); // Adjust the path as needed
 const UserOut = require('./models/checkoutdb'); // Adjust the path as needed
 const User = require('./models/userMongo'); // Adjust the path as needed
+const currState = require('./models/userState'); // This should be for user state
 
 const app = express();
 const port = 8000;
@@ -23,7 +24,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   res.json("Hello");
 });
 
@@ -56,6 +57,48 @@ app.post('/checkout', async (req, res) => {
   } catch (error) {
     console.error('Error saving data:', error);
     res.status(500).send("Error adding data: " + error.message);
+  }
+});
+
+// Posting current state
+app.post('/state', async (req, res) => {
+  const { email, state } = req.body;
+  console.log('Received data:', { email, state });
+
+  try {
+    // Find existing state entry by email and update or create a new one
+    const existingState = await currState.findOne({ email });
+    if (existingState) {
+      existingState.state = state;
+      await existingState.save();
+    } else {
+      const userState = new currState({ email, state });
+      await userState.save();
+    }
+
+    console.log('State Saved Successfully');
+    res.status(201).send("State Saved!");
+  } catch (error) {
+    console.error('Error saving data:', error);
+    res.status(500).send("Error adding data: " + error.message);
+  }
+});
+
+// Getting state
+app.get('/getState', async (req, res) => {
+  const { email } = req.query;
+  console.log('Received request to /getState with email:', email);
+
+  try {
+    const state = await currState.findOne({ email });
+    if (state) {
+      res.json(state);
+    } else {
+      res.status(404).send('State not found');
+    }
+  } catch (error) {
+    console.error('Error fetching State:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
