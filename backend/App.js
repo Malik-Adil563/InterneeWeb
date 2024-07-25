@@ -92,6 +92,7 @@ app.get('/getState', async (req, res) => {
   try {
     const state = await currState.findOne({ email });
     if (state) {
+      console.log('email with state found');
       res.json(state);
     } else {
       res.status(404).send('State not found');
