@@ -80,7 +80,7 @@ const Home = () => {
           console.error('Error adding data:', error);
         });
 
-       Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" })
+       Axios.put('https://internee-web.vercel.app/state', { email, state: "checkin" })
         .then(response => {
           console.log(response.data);
         })
@@ -101,7 +101,7 @@ const Home = () => {
           console.error('Error adding data:', error);
         });
 
-       Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" })
+       Axios.put('https://internee-web.vercel.app/state', { email, state: "checkout" })
         .then(response => {
           console.log(response.data);
         })
