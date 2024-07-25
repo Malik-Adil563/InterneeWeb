@@ -30,6 +30,7 @@ const Home = () => {
       // Ensure response is an array and has the expected data
       if (Array.isArray(response.data) && response.data.length > 0) {
         const userState = response.data[0]?.state; // Adjust based on your API response structure
+        console.log('User State:', userState); // Debugging
 
         if (userState === 'checkin') {
           setIsCheckinVisible(false);
