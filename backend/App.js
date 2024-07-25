@@ -90,12 +90,11 @@ app.get('/getState', async (req, res) => {
   console.log('Received request to /getState with email:', email);
 
   try {
-    const state = await currState.findOne({ email });
-    if (state) {
-      console.log('Found state:', state);
+    const state = await currState.find({ email });
+    if (state.length > 0) {
+      console.log('State found for email:', email);
       res.json(state);
     } else {
-      console.log('State not found');
       res.status(404).send('State not found');
     }
   } catch (error) {
