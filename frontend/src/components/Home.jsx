@@ -58,8 +58,8 @@ const Home = () => {
     const month = today.getMonth() + 1;
     const year = today.getFullYear();
     const date = today.getDate();
-    const currentDate = `${year}-${month}-${date}`;
-    const currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+    const currentDate = ${year}-${month}-${date};
+    const currentTime = ${today.getHours()}:${today.getMinutes()}:${today.getSeconds()};
 
     const data = { date: currentDate, time: currentTime, email };
 
