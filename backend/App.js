@@ -62,17 +62,18 @@ app.post('/checkout', async (req, res) => {
 
 // Posting current state
 app.post('/state', async (req, res) => {
-  const { email, state } = req.body;
-  console.log('Received data:', { email, state });
+  const { email, state, date } = req.body; // Ensure date is included here
+  console.log('Received data:', { email, state, date });
 
   try {
     // Find existing state entry by email and update or create a new one
     const existingState = await currState.findOne({ email });
     if (existingState) {
       existingState.state = state;
+      existingState.date = date; // Ensure date is updated
       await existingState.save();
     } else {
-      const userState = new currState({ email, state, date: new Date().toISOString().split('T')[0] }); // Include date field
+      const userState = new currState({ email, state, date }); // Include date field
       await userState.save();
     }
 
