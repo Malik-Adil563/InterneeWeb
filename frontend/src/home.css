@@ -95,7 +95,7 @@ html{
   cursor: pointer;
 }
 
-.auth button[type="submit"]{
+.auth button[type="button"]{
   display: block;
   margin: 2rem auto;
   font-size: 1.6rem;
@@ -107,7 +107,7 @@ html{
   color: #ffffff;
 }
 
-.auth button[type="submit"]:hover{
+.auth button[type="button"]:hover{
   cursor: pointer;
 }
 
