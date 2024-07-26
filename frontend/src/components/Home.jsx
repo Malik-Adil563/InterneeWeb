@@ -58,8 +58,8 @@ const Home = () => {
     const month = today.getMonth() + 1;
     const year = today.getFullYear();
     const date = today.getDate();
-    const currentDate = `${year}-${month}-${date}`;
-    const currentTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+    const currentDate = ${year}-${month}-${date};
+    const currentTime = ${today.getHours()}:${today.getMinutes()}:${today.getSeconds()};
 
     const data = { date: currentDate, time: currentTime, email };
 
@@ -79,7 +79,7 @@ const Home = () => {
           console.error('Error adding data:', error);
         });
 
-      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin", date: currentDate })
+      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkin" })
         .then(response => {
           console.log(response.data);
         })
@@ -100,7 +100,7 @@ const Home = () => {
           console.error('Error adding data:', error);
         });
 
-      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout", date: currentDate })
+      Axios.post('https://internee-web.vercel.app/state', { email, state: "checkout" })
         .then(response => {
           console.log(response.data);
         })
