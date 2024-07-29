@@ -135,6 +135,30 @@ app.get('/getUsers', async (req, res) => {
   }
 });
 
+//Route to fetch Check-Out Users
+app.get('/getCheckin', async (req, res) => {
+  try {
+    console.log('Received request to /getCheckin');
+    const usersOut = await UserOut.find();
+    res.json(usersOut);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//Route to fetch Check-In Users
+app.get('/getCheckout', async (req, res) => {
+  try {
+    console.log('Received request to /getCheckout');
+   const usersIn = await UserIn.find();
+    res.json(usersIn);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Route to generate and download Excel file
 app.get('/generateExcel', async (req, res) => {
   try {
