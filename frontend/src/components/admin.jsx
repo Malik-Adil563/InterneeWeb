@@ -89,10 +89,10 @@ const Admin = () => {
         <section>
           <div className="auth">
             <h1>Welcome to Octaloop Technologies</h1>
-            <button onClick={handleShowUsers} type='submit'>Generate All Data</button>
-            <button onClick={() => setShowCheckin(!showCheckin)} type='submit'>SHOW Check-In</button>
+            <button onClick={handleShowUsers} type='button'>Generate All Data</button>
+            <button onClick={() => setShowCheckin(!showCheckin)} type='button'>    SHOW Check-In</button>
             {showCheckin && <ShowCheckin />}
-            <button onClick={() => setShowCheckout(!showCheckout)} type='submit'>SHOW Check-Out</button>
+            <button onClick={() => setShowCheckout(!showCheckout)} type='button'>    SHOW Check-Out</button>
             {showCheckout && <ShowCheckout />}
           </div>
         </section>
